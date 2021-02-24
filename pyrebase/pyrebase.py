@@ -400,7 +400,9 @@ class Storage:
             if isinstance(file, str):
                 return blob.upload_from_filename(filename=file)
             else:
-                return blob.upload_from_file(file_obj=file)
+                blob.upload_from_file(file_obj=file, content_type=file.content_type)
+                blob.make_public()
+                return blob.public_url
         else:
             request_object = self.requests.post(request_ref, data=file_object)
             raise_detailed_error(request_object)
